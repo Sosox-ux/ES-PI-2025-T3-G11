@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avalium - Cadastro</title>
+    <link rel="stylesheet" href="stylecadastro.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="shape shape-top-left"></div>
+    <div class="shape shape-bottom-right"></div>
+
+    <main class="cadastro-container">
+        <section class="cadastro-box">
+
+        <a href="inicio.html" class="back-link">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+        </a>
+            
+            <header class="logo-area-cadastro">
+                <img src="logogrande.png.png" alt="Logo Avalium" class="logo-image">
+            </header>
+
+            <form>
+                <div class="input-group">
+                    <label for="name">Nome</label>
+                    <input type="text" id="name" name="name">
+                </div>
+                <div class="input-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" name="email">
+                </div>
+                <div class="input-group">
+                    <label for="phone">Telefone</label>
+                    <input type="tel" id="phone" name="phone">
+                </div>
+                <div class="input-group">
+                    <label for="password">Senha</label>
+                    <input type="password" id="password" name="password">
+                </div>
+                <div class="input-group">
+                    <label for="password_confirmation">Confirme sua senha</label>
+                    <input type="password" id="password_confirmation" name="password_confirmation">
+                </div>
+                
+                <button type="submit" class="login-button">Cadastre-se</button>
+            </form>
+        </section>
+    </main>
+</body>
+</html>

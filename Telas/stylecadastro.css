@@ -1,4 +1,3 @@
-
 :root {
     --bg-color: #f3f3f3;
     --shape-color: #bdd6d2;
@@ -16,16 +15,17 @@
     box-sizing: border-box;
 }
 
-
 body {
-    font-family: var(--font-body);
     background-color: var(--bg-color);
     color: var(--dark-text-color);
+    
     display: grid;
-    justify-content: center; 
-    padding-top: 1vh;       
+    justify-content: center;
+    align-content: start;
+    padding-top: 10vh;       
     min-height: 100vh;
     margin: 0;
+
     overflow: hidden; 
     position: relative;
 }
@@ -56,39 +56,16 @@ body {
     transform: rotate(45deg);
 }
 
-
-.login-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: -10rem;
-}
-
 .logo-area {
     text-align: center;
 }
 
 .logo-image {
-    max-width: 290px;
-    height: 275px;
+    width: 200px;
+    height: 200px;
+    margin-bottom: -30px;
 }
 
-.login-box {
-    background-color: var(--form-bg-color);
-    padding: 2.5rem;
-    border-radius: 20px;
-    width: 100%;
-    max-width: 400px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-}
-
-.login-box h1 {
-    font-family: var(--font-primary);
-    font-size: 2.5rem;
-    color: var(--dark-text-color);
-    text-align: center;
-    margin-bottom: 2rem;
-}
 
 form {
     display: flex;
@@ -123,20 +100,6 @@ form {
     box-shadow: 0 0 0 3px rgba(74, 85, 92, 0.1);
 }
 
-.forgot-password {
-    text-align: right;
-    font-size: 0.85rem;
-    color: var(--light-text-color);
-    text-decoration: underline;
-    margin-bottom: 1.5rem;
-    display: block;
-    font-family: var(--font-secondary);
-}
-
-.forgot-password:hover {
-    color: var(--dark-text-color);
-}
-
 .login-button {
     background-color: var(--dark-text-color);
     color: #fff;
@@ -148,25 +111,41 @@ form {
     cursor: pointer;
     transition: background-color 0.2s ease-in-out;
     margin-bottom: 1.5rem;
+    font-family: var(--font-primary);
 }
 
 .login-button:hover {
     background-color: #3a444a;
 }
 
-.signup-link {
-    text-align: center;
-    font-size: 0.9rem;
-    color: var(--light-text-color);
-    font-family: var(--font-secondary);
+.cadastro-box {
+    position: relative; 
+    background-color: var(--form-bg-color);
+    padding: 2.5rem;
+    padding-top: 0.5rem;
+    border-radius: 30px; 
+    width: 400px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
 }
 
-.signup-link a {
+.back-link {
+    position: absolute;
+    top: 25px;
+    left: 25px;
     color: var(--dark-text-color);
-    text-decoration: underline;
-    font-weight: 600;
+    text-decoration: none;
+    line-height: 0; 
 }
 
-.signup-link a:hover {
+.back-link:hover {
     color: #000;
+}
+
+.logo-area-cadastro {
+    text-align: center;
+    margin-bottom: 2rem; 
+}
+
+.cadastro-box form .input-group:last-of-type {
+    margin-bottom: 2rem;
 }
