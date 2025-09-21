@@ -142,6 +142,9 @@ body {
 }
 
 .btn-primary { 
+    display: block;
+    text-decoration: none;      
+    text-align: center;
     width: 100%;
     background-color: var(--dark-text-color);
     color: #fff;
