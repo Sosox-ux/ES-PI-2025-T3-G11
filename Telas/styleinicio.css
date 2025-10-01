@@ -64,6 +64,10 @@ body {
     gap: -10rem;
 }
 
+label {
+    font-weight: bold;
+}
+
 .logo-area {
     text-align: center;
 }
