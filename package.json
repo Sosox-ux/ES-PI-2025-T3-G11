@@ -1,0 +1,25 @@
+{
+  "name": "es-pi-2025-t3-g11",
+  "version": "1.0.0",
+  "description": "Repositório do Projeto Integrador II",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start":"npx tsc-watch --onSuccess \"node ./lib/index.js\"",
+    "dev": "ts-node src/server.ts", 
+    "build": "tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "@tsconfig/recommended": "^1.0.10",
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.6.2",
+    "tsc-watch": "^7.2.0",
+    "typescript": "^5.9.3"
+  }
+}
