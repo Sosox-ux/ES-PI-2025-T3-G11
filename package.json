@@ -15,7 +15,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^5.1.0",
-    "oracledb": "^6.9.0"
+    "oracledb": "^6.10.0"
   },
   "devDependencies": {
     "@tsconfig/recommended": "^1.0.10",
