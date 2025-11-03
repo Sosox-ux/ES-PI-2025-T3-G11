@@ -1,14 +1,19 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+<link rel="stylesheet" href="me">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NotaDez - Cadastro</title>
-    <link rel="stylesheet" href="stylecadastro.css">
+    <link rel="stylesheet" href="css/stylecadastro.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Nunito:wght@400;600;700&display=swap"
+        rel="stylesheet">
 </head>
+
 <body>
     <div class="shape shape-top-left"></div>
     <div class="shape shape-bottom-right"></div>
@@ -16,27 +21,24 @@
     <main class="cadastro-container">
         <section class="cadastro-box">
 
-        <a href="inicio.html" class="back-link">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="15 18 9 12 15 6"></polyline>
-        </svg>
-        </a>
-            
+            <a href="inicio.html" class="back-link">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+            </a>
+
             <header class="logo-area-cadastro">
-                <img src="LogoNotaDez.png" alt="Logo" class="logo-image">
+                <img src="img/LogoNotaDez.png" alt="Logo" class="logo-image">
             </header>
 
-            <form id="form-cadastro">
+            <form>
                 <div class="input-group">
-                    <label for="name">Nome:*</label>
+                    <label for="name">Nome e Sobrenome:</label>
                     <input type="text" id="name" name="name" required>
                 </div>
                 <div class="input-group">
-                    <label for="name">Sobrenome:*</label>
-                    <input type="text" id="sobrenome" name="sobrenome" required>
-                </div>
-                <div class="input-group">
-                    <label for="email">E-mail:*</label>
+                    <label for="email">E-mail:</label>
                     <input type="email" id="email" name="email" required>
                 </div>
                 <div class="input-group">
@@ -44,18 +46,36 @@
                     <input type="tel" id="phone" name="phone">
                 </div>
                 <div class="input-group">
-                    <label for="password">Senha:*</label>
-                    <input type="password" id="password" name="password" required>
+                    <label for="cadastro-password">Senha</label>
+                    <input type="password" id="cadastro-password" oninput="validatePassword()"
+                        onfocus="showRequirements()" required>
+
                 </div>
-                <div class="input-group">
-                    <label for="password_confirmation">Confirme sua senha:*</label>
-                    <input type="password" id="password_confirmation" name="password_confirmation" required>
+                <div id="password-requirements" class="password-requirements">
+
+                    <div id="req-length" class="requirement">Mínimo de 8 caracteres</div>
+                    <div id="req-lowercase" class="requirement">Pelo meno uma letra maiscula</div>
+                    <div id="req-number" class="requirement">Pelo menos 1 número</div>
+                    <div id="req-special" class="requirement">Pelo menos 1 caractere especial</div>
+
                 </div>
-                
+
+
+
+
+
+
+
+
                 <button type="submit" class="login-button">Cadastre-se</button>
             </form>
         </section>
     </main>
-    <script src="cadastro.js"></script>
+
+
+    <script src="Scripts/cadastro.js"></script>
+
+
 </body>
+
 </html>

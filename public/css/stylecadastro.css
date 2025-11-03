@@ -22,7 +22,7 @@ body {
     display: grid;
     justify-content: center;
     align-content: start;
-    padding-top: 10vh;       
+    padding-top: 0vh;       
     min-height: 100vh;
     margin: 0;
 
@@ -65,7 +65,6 @@ body {
     height: 200px;
     margin-bottom: -30px;
 }
-
 
 form {
     display: flex;
@@ -122,7 +121,7 @@ form {
     position: relative; 
     background-color: var(--form-bg-color);
     padding: 2.5rem;
-    padding-top: 0.5rem;
+    padding-top: 2rem;
     border-radius: 30px; 
     width: 400px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
@@ -149,3 +148,56 @@ form {
 .cadastro-box form .input-group:last-of-type {
     margin-bottom: 2rem;
 }
+
+
+
+.password-requirements {
+    margin-top: 15px;
+    padding: 15px;
+    background-color: #f8f8f8;
+    border-radius: 8px;
+    display: none;
+}
+
+.password-requirements.show {
+    display: block;
+}
+
+
+.requirement {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 13px;
+    color: red;
+}
+
+
+.requirement:last-child {
+    margin-bottom: 0;
+}
+
+
+.requirement.valid {
+    color: green;
+    font-weight: bold;
+}
+
+
+.requirement::before {
+    content: '✖';
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+
+.requirement.valid::before {
+    content: '✔';
+    color: green;
+}
+
+
+
