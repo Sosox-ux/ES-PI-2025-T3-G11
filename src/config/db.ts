@@ -1,6 +1,5 @@
-import 'dotenv/config';
-import 'reflect-metadata'; 
-import { createConnection } from 'typeorm';
+import oracledb from "oracledb";
+import "dotenv/config";
 
 const {
   ORACLE_HOST,
@@ -12,27 +11,22 @@ const {
 
 const connectString = `${ORACLE_HOST}:${ORACLE_PORT}/${ORACLE_SERVICE}`;
 
-export const connectDatabase = async () => {
-  try {
-    await createConnection({
-      type: 'oracle', 
-      username: ORACLE_USER,
-      password: ORACLE_PASSWORD,
-      connectString: connectString, 
+oracledb.outFormat = oracledb.OUT_FORMAT_OBJECT;
 
-      
-      entities: [
-        __dirname + '/../core/entities/*.{js,ts}'
-      ],
+export async function initPool() {
+  console.log("Iniciando pool de conexões com o Oracle...");
+  await oracledb.createPool({
+    user: ORACLE_USER,
+    password: ORACLE_PASSWORD,
+    connectString,
+    poolMin: 1,
+    poolMax: 10,
+    poolIncrement: 1
+  });
+  console.log("Pool de conexões iniciado.");
+}
 
-      synchronize: true, 
-      
-    });
-    
-    console.log('Conectado ao Banco de Dados Oracle com sucesso!');
-  
-  } catch (error) {
-    console.error('Erro ao conectar com o Banco de Dados:', error);
-    throw error; 
-  }
-};
+export async function getConn() {
+  return oracledb.getConnection(); 
+}
+

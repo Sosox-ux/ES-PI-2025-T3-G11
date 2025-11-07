@@ -34,7 +34,6 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         try {
-            // (Mude 'http://localhost:3333' para a URL do seu backend se for diferente)
             const resposta = await fetch('http://localhost:3333/api/v1/auth/register', {
                 method: 'POST',
                 headers: {
@@ -55,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 form.reset(); 
                 
                 setTimeout(() => {
-                    window.location.href = 'login.html'; 
+                    window.location.href = 'inicio.html'; 
                 }, 2000);
             }
 
