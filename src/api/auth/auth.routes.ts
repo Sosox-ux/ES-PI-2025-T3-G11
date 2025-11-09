@@ -18,4 +18,16 @@ authRoutes.post(
     (req, res) => controller.login(req, res)
 );
 
+
+authRoutes.post(
+  '/forgot-password', 
+  (req, res) => controller.pedirCodigoReset(req, res)
+);
+
+
+authRoutes.post(
+  '/reset-password', 
+  (req, res) => controller.resetarSenha(req, res)
+);
+
 export { authRoutes };

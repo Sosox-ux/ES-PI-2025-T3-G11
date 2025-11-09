@@ -1,139 +1,215 @@
-import { getConn } from '../../config/db'; 
+import { getConn } from '../../config/db';
 import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
-import { randomUUID } from 'crypto';
+import { enviarEmailReset } from '../../core/service/email.service';
 
-interface CriarContaDTO {
+interface CriarConta {
   nome: string;
   email: string;
   telefone: string;
   senha: string;
 }
 
-interface LoginDTO {
+interface Login {
   email: string;
   senha: string;
 }
 
 export class AuthService {
 
-
-  public async criarConta({ nome, email, telefone, senha }: CriarContaDTO) {
+  public async criarConta({ nome, email, telefone, senha }: CriarConta) {
     
     let connection; 
-    
-    // O try/finally fica MUITO menor
     try {
-      // 1. Pega uma conexão
       connection = await getConn();
 
-      // 2. VERIFICAR DUPLICIDADE
-      const checkEmailSql = `SELECT 1 FROM logins WHERE email = :email`;
+      // verifica se tem igual
+      const checkEmailSql = `SELECT 1 FROM DOCENTE WHERE EMAIL = :email`;
       const emailResult = await connection.execute(checkEmailSql, [email]);
 
       if (emailResult.rows && emailResult.rows.length > 0) {
         throw new Error('Este e-mail já está em uso.');
       }
 
-      // 3. HASH DA SENHA (Isto é obrigatório, veja abaixo)
+      // hash a senha
       const senhaHash = await bcrypt.hash(senha, 8);
 
-      // 4. GERAR IDs
-      const loginId = randomUUID();
-      const docenteId = randomUUID();
-
-      // 5. SQL - Inserir na tabela 'logins' (com autoCommit)
-      const insertLoginSql = `
-        INSERT INTO logins (id, email, senha) 
-        VALUES (:id, :email, :senha)
+      // insere na tabela
+      const insertSql = `
+        INSERT INTO DOCENTE (NOME, EMAIL, TELEFONE_CELULAR, SENHA_HASH) 
+        VALUES (:nome, :email, :telefone, :senhaHash)
       `;
-      await connection.execute(insertLoginSql, {
-        id: loginId,
-        email: email,
-        senha: senhaHash
-      }, { autoCommit: true }); // <-- MUDANÇA: autoCommit=true
-
-      // 6. SQL - Inserir na tabela 'docentes' (com autoCommit)
-      const insertDocenteSql = `
-        INSERT INTO docentes (id, nome, telefone, login_id) 
-        VALUES (:id, :nome, :telefone, :login_id)
-      `;
-      await connection.execute(insertDocenteSql, {
-        id: docenteId,
+      
+      await connection.execute(insertSql, {
         nome: nome,
+        email: email,
         telefone: telefone,
-        login_id: loginId
-      }, { autoCommit: true }); // <-- MUDANÇA: autoCommit=true
+        senhaHash: senhaHash // salva o hash
+      }, { autoCommit: true }); 
 
-      // 7. Retorna os dados para o controller
-      return { id: docenteId, nome, telefone, email };
+      // retorna os dados (sem a senha)
+      return { nome, email, telefone };
 
     } catch (error) {
-      // 8. Se deu erro, só lança para o controller
       throw error; 
     } finally {
-      // 9. DEVOLVE A CONEXÃO
       if (connection) {
-        try {
-          await connection.close(); // Devolve a conexão ao pool
-        } catch (err) {
-          console.error("Erro ao devolver conexão ao pool", err);
-        }
+        try { await connection.close(); } catch (err) { console.error(err); }
       }
     }
   }
 
-  /**
-   * REQUISITO 3.1: Autenticação (Login)
-   * (Este método já era simples e pode continuar igual)
-   */
-  public async realizarLogin({ email, senha }: LoginDTO) {
+  public async realizarLogin({ email, senha }: Login) {
     
     let connection;
     try {
-      // 1. Pega conexão
       connection = await getConn();
 
-      // 2. Procura o LOGIN
-      const sqlLogin = `SELECT id, email, senha FROM logins WHERE email = :email`;
-      const resultLogin = await connection.execute(sqlLogin, [email]);
+      // busca docente pelo e-mail
+      const sql = `
+        SELECT ID_DOCENTE, NOME, EMAIL, TELEFONE_CELULAR, SENHA_HASH 
+        FROM DOCENTE 
+        WHERE EMAIL = :email
+      `;
+      const result = await connection.execute(sql, [email]);
 
-      if (!resultLogin.rows || resultLogin.rows.length === 0) {
+      if (!result.rows || result.rows.length === 0) {
         throw new Error('E-mail ou senha inválidos.'); 
       }
-      const loginDoBanco = resultLogin.rows[0] as any;
-      const hashDaSenha = loginDoBanco.SENHA;
+      
+      const docente = result.rows[0] as any;
+      const hashDaSenha = docente.SENHA_HASH; // Oracle retorna maiúsculo
 
-      // 3. COMPARA A SENHA (Obrigatório)
+      // compara a senha
       const senhaValida = await bcrypt.compare(senha, hashDaSenha);
       if (!senhaValida) {
         throw new Error('E-mail ou senha inválidos.');
       }
 
-      // 4. Busca o DOCENTE
-      const sqlDocente = `SELECT id, nome, telefone FROM docentes WHERE login_id = :loginId`;
-      const resultDocente = await connection.execute(sqlDocente, [loginDoBanco.ID]);
-      if (!resultDocente.rows || resultDocente.rows.length === 0) {
-        throw new Error('Perfil do docente não encontrado.'); 
-      }
-      const docente = resultDocente.rows[0] as any;
-
-      // 5. CRIA O "CRACHÁ" (Obrigatório)
+      // cria o token 
       const secret = process.env.JWT_SECRET;
       if (!secret) throw new Error('Chave JWT_SECRET não configurada no .env');
 
       const token = jwt.sign(
-        { docenteId: docente.ID, email: loginDoBanco.EMAIL },
+        { 
+          docenteId: docente.ID_DOCENTE, // salva o id do docente no crachazinho
+          email: docente.EMAIL
+        },
         secret,
-        { expiresIn: '1d' } // Expira em 1 dia
+        { expiresIn: '1d' }
       );
 
+      // retorna o dados
       return {
-        docente: { id: docente.ID, nome: docente.NOME, email: loginDoBanco.EMAIL },
+        docente: {
+          id: docente.ID_DOCENTE,
+          nome: docente.NOME,
+          email: docente.EMAIL,
+          telefone: docente.TELEFONE_CELULAR
+        },
         token
       };
     } catch (error) {
       throw error;
+    } finally {
+      if (connection) {
+        try { await connection.close(); } catch (err) { console.error(err); }
+      }
+    }
+  }
+
+  public async gerarCodigoReset(email: string) {
+    let connection;
+    try {
+      connection = await getConn();
+
+      // 1. Verifica se o docente existe
+      const sqlFind = `SELECT ID_DOCENTE FROM DOCENTE WHERE EMAIL = :email`;
+      const resultFind = await connection.execute(sqlFind, [email]);
+
+      if (!resultFind.rows || resultFind.rows.length === 0) {
+        // Docente não encontrado.
+        // NÃO retorne um erro (por segurança). Apenas saia da função.
+        return; 
+      }
+      
+      // 2. Gera um código aleatório de 6 dígitos
+      const codigo = Math.floor(100000 + Math.random() * 900000).toString();
+
+      // 3. Define a data de expiração (15 minutos a partir de agora)
+      // (O Oracle entende o objeto Date do JS)
+      const expiresAt = new Date(Date.now() + 15 * 60 * 1000); // 15 minutos
+
+      // 4. Salva o código e a data no banco
+      const sqlUpdate = `
+        UPDATE DOCENTE 
+        SET RESET_CODE = :codigo, RESET_EXPIRES_AT = :expiresAt
+        WHERE EMAIL = :email
+      `;
+      await connection.execute(sqlUpdate, 
+        { codigo, expiresAt, email },
+        { autoCommit: true }
+      );
+
+      // 5. Envia o e-mail (usando o serviço que criamos)
+      await enviarEmailReset(email, codigo);
+
+    } catch (error) {
+      console.error(error);
+      throw error; // Lança o erro para o Controller
+    } finally {
+      if (connection) {
+        try { await connection.close(); } catch (err) { console.error(err); }
+      }
+    }
+  }
+
+  /**
+   * Fase 3: Reseta a senha se o código estiver correto
+   */
+  public async resetarSenha(email: string, codigo: string, novaSenha: string) {
+    let connection;
+    try {
+      connection = await getConn();
+
+      // 1. Procura o docente PELO CÓDIGO e E-MAIL
+      // E verifica se o código NÃO EXPIROU (SYSTIMESTAMP é o "agora" do Oracle)
+      const sqlFind = `
+        SELECT ID_DOCENTE 
+        FROM DOCENTE 
+        WHERE EMAIL = :email 
+          AND RESET_CODE = :codigo 
+          AND RESET_EXPIRES_AT > SYSTIMESTAMP
+      `;
+      const resultFind = await connection.execute(sqlFind, { email, codigo });
+
+      // Se não achou, o código está errado ou expirou
+      if (!resultFind.rows || resultFind.rows.length === 0) {
+        throw new Error('Código inválido ou expirado.');
+      }
+      
+      // 2. Se o código foi válido, hash a nova senha
+      const novaSenhaHash = await bcrypt.hash(novaSenha, 8);
+
+      // 3. Atualiza a senha e "queima" o código (setando-o para NULL)
+      const sqlUpdate = `
+        UPDATE DOCENTE
+        SET SENHA_HASH = :novaSenhaHash,
+            RESET_CODE = NULL,
+            RESET_EXPIRES_AT = NULL
+        WHERE EMAIL = :email
+      `;
+      await connection.execute(sqlUpdate, 
+        { novaSenhaHash, email },
+        { autoCommit: true }
+      );
+
+      // Se chegou aqui, tudo deu certo
+      return { message: 'Senha resetada com sucesso' };
+
+    } catch (error) {
+      console.error(error);
+      throw error; // Lança o erro para o Controller
     } finally {
       if (connection) {
         try { await connection.close(); } catch (err) { console.error(err); }

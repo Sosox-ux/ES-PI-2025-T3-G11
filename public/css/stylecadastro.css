@@ -26,7 +26,8 @@ body {
     min-height: 100vh;
     margin: 0;
 
-    overflow: hidden; 
+    overflow-y: auto; 
+    overflow-x: hidden;
     position: relative;
 }
 
@@ -73,6 +74,7 @@ form {
 
 .input-group {
     margin-bottom: 1.2rem;
+    font-weight: bold;
 }
 
 .input-group label {
@@ -199,5 +201,23 @@ form {
     color: green;
 }
 
+::-webkit-scrollbar {
+    width: 10px;
+}
+   
+::-webkit-scrollbar-track {
+    background: var(--form-bg-color);
+    border-radius: 10px;
+}
+   
 
+::-webkit-scrollbar-thumb {
+    background-color: var(--shape-color); 
+    border-radius: 10px;
+    border: 2px solid var(--form-bg-color); 
+}
+   
+::-webkit-scrollbar-thumb:hover {
+    background-color: #a9c4c0; 
+}
 

@@ -26,17 +26,23 @@
             
         </header>
 
-        <section class="form-box">
-            <h2 class="form-title">Esqueci minha senha</h2>
-            <form>
-                <p class="instrucao">Digite o e-mail vinculado à conta:</p>
-                <div class="input-group">
-                    <input type="email" id="email" name="email">
-                </div>
-                <a href="esquecisenha2.html" class="btn-primary">Enviar</a>
-            </form>
-        </section>
+    <section class="form-box">
+        <h2 class="form-title">Esqueci minha senha</h2>
+        
+        <form id="form-esqueci">
+            <p class="instrucao">Digite o e-mail vinculado à conta:</p>
+            <div class="input-group">
+                <input type="email" id="email" name="email" placeholder="seu-email@exemplo.com" required>
+            </div>
+            
+            <button type="submit" class="btn-primary">Enviar</button>
+            
+            <div id="mensagem" style="margin-top: 15px;"></div>
+        </form>
+    </section>
     </main>
+
+    <script src="js/esqueci-senha.js"></script>
 </body>
 </html>
 

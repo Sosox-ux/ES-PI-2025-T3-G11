@@ -69,4 +69,46 @@ export class AuthController {
       return res.status(500).json({ error: 'Erro interno ao fazer login.' });
     }
   }
+
+  async pedirCodigoReset(req: Request, res: Response) {
+    const { email } = req.body;
+    if (!email) {
+      return res.status(400).json({ error: 'O e-mail é obrigatório.' });
+    }
+
+    try {
+      await this.authService.gerarCodigoReset(email);
+      // **IMPORTANTE (Segurança):** Sempre retorne sucesso, mesmo se o e-mail não existir.
+      // Isso impede que hackers "adivinhem" e-mails cadastrados.
+      return res.json({ message: 'Se o e-mail estiver cadastrado, um código de recuperação foi enviado.' });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: 'Erro interno ao processar a solicitação.' });
+    }
+  }
+
+  /**
+   * Controlador para RESETAR A SENHA
+   */
+  async resetarSenha(req: Request, res: Response) {
+    const { email, codigo, novaSenha } = req.body;
+    
+    if (!email || !codigo || !novaSenha) {
+      return res.status(400).json({ error: 'E-mail, código e nova senha são obrigatórios.' });
+    }
+
+    try {
+      await this.authService.resetarSenha(email, codigo, novaSenha);
+      return res.json({ message: 'Senha alterada com sucesso!' });
+    } catch (error) {
+      // Trata erros específicos do Service
+      if (error instanceof Error) {
+        if (error.message === 'Código inválido ou expirado.') {
+          return res.status(400).json({ error: error.message });
+        }
+      }
+      console.error(error);
+      return res.status(500).json({ error: 'Erro interno ao resetar a senha.' });
+    }
+  }
 }
