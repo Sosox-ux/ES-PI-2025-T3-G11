@@ -69,6 +69,12 @@
                         <p>adicione um novo aluno</p>
                         <button class="btn-primary" onclick="showPage('cadastrar-aluno')">Cadastrar</button>
                     </div>
+                    <div class="card">
+                        <h3>Definir Fórmula</h3>
+                        <p>crie uma fórmula para calcular notas</p>
+                        <button class="btn-primary" onclick="showPage('definir-formula')">Definir</button>
+                    </div>
+
                 </div>
             </div>
 
@@ -247,7 +253,60 @@
                     <h2>Configurações</h2>
                     <p>Em desenvolvimento...</p>
                 </div>
+            </div>    
+                               
+            <div id="definir-formula" class="page">
+                <div class="form-container">
+                    <h2>Definir Fórmula</h2>
+                    <div id="formulaSuccess"></div>
+                    <form id="formFormula" onsubmit="cadastrarFormula(event)">
+                        <div class="form-group">
+                            <label>Nome da Fórmula</label>
+                            <input type="text" id="nomeFormula" placeholder="Ex: Média Ponderada AV1/AV2" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Tipo de Fórmula</label>
+                            <select id="tipoFormula" onchange="mostrarCamposFormula()" required>
+                                <option value="">Selecione um tipo</option>
+                                <option value="simples">Média Simples</option>
+                                <option value="ponderada">Média Ponderada</option>
+                                <option value="personalizada">Expressão Personalizada</option>
+                            </select>
+                        </div>
+                        <div id="pesosContainer" class="form-group" style="display: none;">
+                            <label>Pesos das Avaliações</label>
+                            <div class="avaliacoes-group">
+                                <div class="avaliacao-item">
+                                    <label>AV1</label>
+                                    <input type="number" id="pesoAv1" step="0.1" min="0" max="10">
+                                </div>
+                                <div class="avaliacao-item">
+                                    <label>AV2</label>
+                                    <input type="number" id="pesoAv2" step="0.1" min="0" max="10">
+                                </div>
+                                <div class="avaliacao-item">
+                                    <label>AV3</label>
+                                    <input type="number" id="pesoAv3" step="0.1" min="0" max="10">
+                                </div>
+                                <div class="avaliacao-item">
+                                    <label>AV4</label>
+                                    <input type="number" id="pesoAv4" step="0.1" min="0" max="10">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="expressaoContainer" class="form-group" style="display: none;">
+                            <label>Expressão Personalizada</label>
+                            <input type="text" id="expressaoFormula" placeholder="Ex: (AV1*0.4 + AV2*0.6)">
+                            <small style="color: gray;">Use AV1, AV2, AV3, AV4 nas expressões</small>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn-submit">Salvar Fórmula</button>
+                            <button type="button" class="btn-cancel" onclick="showPage('home')">Cancelar</button>
+                        </div> 
+                    </form>
+                </div>
             </div>
+
         </div>
     </div>
     
