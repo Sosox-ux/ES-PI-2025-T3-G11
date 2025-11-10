@@ -4,7 +4,7 @@ function showRequirements() {
     }
 
     function validatePassword() {
-        const password = document.getElementById('cadastro-password').value;
+        const password = document.getElementById('senha').value;
 
         // Validar tamanho
         const lengthReq = document.getElementById('req-length');
