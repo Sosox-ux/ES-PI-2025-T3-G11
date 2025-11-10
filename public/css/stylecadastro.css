@@ -22,12 +22,11 @@ body {
     display: grid;
     justify-content: center;
     align-content: start;
-    padding-top: 0vh;       
+    padding-top: 10vh;       
     min-height: 100vh;
     margin: 0;
 
-    overflow-y: auto; 
-    overflow-x: hidden;
+    overflow: hidden; 
     position: relative;
 }
 
@@ -67,6 +66,7 @@ body {
     margin-bottom: -30px;
 }
 
+
 form {
     display: flex;
     flex-direction: column;
@@ -74,7 +74,6 @@ form {
 
 .input-group {
     margin-bottom: 1.2rem;
-    font-weight: bold;
 }
 
 .input-group label {
@@ -123,7 +122,7 @@ form {
     position: relative; 
     background-color: var(--form-bg-color);
     padding: 2.5rem;
-    padding-top: 2rem;
+    padding-top: 0.5rem;
     border-radius: 30px; 
     width: 400px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
@@ -158,14 +157,15 @@ form {
     padding: 15px;
     background-color: #f8f8f8;
     border-radius: 8px;
-    display: none;
+    display: none; /* Começa escondido */
 }
 
+/* Mostra o bloco de requisitos quando o JS adiciona a classe .show */
 .password-requirements.show {
     display: block;
 }
 
-
+/* Cada requisito visível por padrão */
 .requirement {
     display: flex;
     align-items: center;
@@ -174,18 +174,18 @@ form {
     color: red;
 }
 
-
+/* Remove margem extra no último requisito */
 .requirement:last-child {
     margin-bottom: 0;
 }
 
-
+/* Quando o requisito é válido */
 .requirement.valid {
     color: green;
     font-weight: bold;
 }
 
-
+/* Ícone padrão (X vermelho) */
 .requirement::before {
     content: '✖';
     display: inline-block;
@@ -195,29 +195,11 @@ form {
     font-weight: bold;
 }
 
-
+/* Ícone quando o requisito está válido (✔ verde) */
 .requirement.valid::before {
     content: '✔';
     color: green;
 }
 
-::-webkit-scrollbar {
-    width: 10px;
-}
-   
-::-webkit-scrollbar-track {
-    background: var(--form-bg-color);
-    border-radius: 10px;
-}
-   
 
-::-webkit-scrollbar-thumb {
-    background-color: var(--shape-color); 
-    border-radius: 10px;
-    border: 2px solid var(--form-bg-color); 
-}
-   
-::-webkit-scrollbar-thumb:hover {
-    background-color: #a9c4c0; 
-}
 

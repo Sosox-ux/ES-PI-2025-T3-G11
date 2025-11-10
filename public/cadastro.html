@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+<link rel="stylesheet" href="me">
 
 <head>
     <meta charset="UTF-8">
@@ -31,44 +32,34 @@
                 <img src="img/LogoNotaDez.png" alt="Logo" class="logo-image">
             </header>
 
-            <form id="form-cadastro">
+            <form>
                 <div class="input-group">
-                    <label for="name">Nome:</label>
-                    <input type="text" id="nome" name="nome" required>
-                </div>
-                <div class="input-group">
-                    <label for="sobrenome">Sobrenome:</label>
-                    <input type="text" id="sobrenome" name="sobrenome" required>
+                    <label for="name">Nome e Sobrenome:</label>
+                    <input type="text" id="name" name="name" required>
                 </div>
                 <div class="input-group">
                     <label for="email">E-mail:</label>
-                    <input type="email" id="email" name="email" placeholder="seu-email@exemplo.com" required>
+                    <input type="email" id="email" name="email" required>
                 </div>
                 <div class="input-group">
                     <label for="phone">Telefone:</label>
                     <input type="tel" id="telefone" name="telefone" placeholder="(11)22222-2222" maxlength="15">
                 </div>
                 <div class="input-group">
-                    <label for="cadastro-password">Senha:</label>
-                    <input type="password" id="senha" oninput="validatePassword()"
+                    <label for="cadastro-password">Senha</label>
+                    <input type="password" id="cadastro-password" oninput="validatePassword()"
                         onfocus="showRequirements()" required>
-                </div>
-             <div id="password-requirements" style="display: none; border: 1px solid #ddd; padding: 10px; margin-top: 5px; border-radius: 5px;">
-                <h4>A senha deve conter:</h4>
-                    <ul style="list-style: none; padding: 0;">
-                        <li id="req-length">Pelo menos 8 caracteres</li>
-                        <li id="req-number">Pelo menos 1 número</li>
-                        <li id="req-upper">Pelo menos 1 letra maiúscula</li>
-                        <li id="req-special">Pelo menos 1 caractere especial (ex: !@#$%)</li>
-                    </ul>
-            </div>
-                <div class="input-group">
-                    <label for="senhaconf">Confirme sua senha:</label>
-                    <input type="password" id="senhaconf" name="senhaconf">
-                </div>
 
+                </div>
+                <div id="password-requirements" class="password-requirements">
+
+                    <div id="req-length" class="requirement">Mínimo de 8 caracteres</div>
+                    <div id="req-lowercase" class="requirement">Pelo meno uma letra maiscula</div>
+                    <div id="req-number" class="requirement">Pelo menos 1 número</div>
+                    <div id="req-special" class="requirement">Pelo menos 1 caractere especial</div>
+
+                </div>
                 <button type="submit" class="login-button">Cadastre-se</button>
-                <div id="mensagem"></div>
             </form>
         </section>
     </main>

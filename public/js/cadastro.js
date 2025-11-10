@@ -1,50 +1,45 @@
 function showRequirements() {
-  document.getElementById('password-requirements').style.display = 'block';
-}
+        const reqBox = document.getElementById('password-requirements');
+        reqBox.classList.add('show');
+    }
 
-function validatePassword() {
-  const password = document.getElementById('senha').value;
-  
+    function validatePassword() {
+        const password = document.getElementById('cadastro-password').value;
 
-  const lengthReq = document.getElementById('req-length');
-  const numberReq = document.getElementById('req-number');
-  const upperReq = document.getElementById('req-upper');
-  const specialReq = document.getElementById('req-special');
+        // Validar tamanho
+        const lengthReq = document.getElementById('req-length');
+        if (password.length >= 8) {
+            lengthReq.classList.add('valid');
+        } else {
+            lengthReq.classList.remove('valid');
+        }
 
-  const hasNumber = /\d/;                
-  const hasUpper = /[A-Z]/;            
-  const hasSpecial = /[!@#$%^&*()]/;  
-  
+        // Validar letra maiúscula
+        const upperReq = document.getElementById('req-lowercase');
+        if (/[A-Z]/.test(password)) {
+            upperReq.classList.add('valid');
+        } else {
+            upperReq.classList.remove('valid');
+        }
 
-  if (password.length >= 8) {
-    lengthReq.style.color = 'green';
-  } else {
-    lengthReq.style.color = 'red';
-  }
+        // Validar número
+        const numberReq = document.getElementById('req-number');
+        if (/\d/.test(password)) {
+            numberReq.classList.add('valid');
+        } else {
+            numberReq.classList.remove('valid');
+        }
 
+        // Validar caractere especial
+        const specialReq = document.getElementById('req-special');
+        if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+            specialReq.classList.add('valid');
+        } else {
+            specialReq.classList.remove('valid');
+        }
+    }
 
-  if (hasNumber.test(password)) {
-    numberReq.style.color = 'green';
-  } else {
-    numberReq.style.color = 'red';
-  }
-
-  if (hasUpper.test(password)) {
-    upperReq.style.color = 'green';
-  } else {
-    upperReq.style.color = 'red';
-  }
-  
-
-  if (hasSpecial.test(password)) {
-    specialReq.style.color = 'green';
-  } else {
-    specialReq.style.color = 'red';
-  }
-}
-
-
-const inputTelefone = document.getElementById('telefone');
+    const inputTelefone = document.getElementById('telefone');
 
 inputTelefone.addEventListener('input', (e) => {
     let valor = e.target.value.replace(/\D/g, '');
