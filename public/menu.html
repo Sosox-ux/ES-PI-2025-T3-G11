@@ -1,80 +1,83 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/menu.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Nunito:wght@400;600;700&display=swap"
+        rel="stylesheet">
     <title>Dashboard - Professor</title>
 </head>
+
 <body>
-    <div class="container">         
+    <div class="container">
         <div class="sidebar">
-            <div class="sidebar-header">
-                <img src="img/LogoNotaDez.png" alt="Logo NotaDez" class="sidebar-logo">
-            </div>
             <div class="profile">
                 <div class="profile-icon">👤</div>
-                <span id="nome-docente-logado">Carregando...</span>
+                <div class="profile-name">Bruno Macedo</div>
             </div>
             <div class="menu">
+                <div class="menu-item active" onclick="showPage('home')">
+                    <span></span>
+                    <span>Instituição</span>
+                </div>
                 <div class="menu-item" onclick="showPage('disciplinas')">
-                    <span>📚</span>
-                    <span>Disciplinas</span>
+                    <span></span>
+                    <span>Disciplina</span>
                 </div>
                 <div class="menu-item" onclick="showPage('turmas')">
-                    <span>👨‍🏫</span>
+                    <span></span>
                     <span>Turmas</span>
                 </div>
                 <div class="menu-item" onclick="showPage('config')">
-                    <span>⚙️</span>
+                    <span></span>
                     <span>Configurações</span>
                 </div>
-            </div>
-            <div class="sidebar-footer">
-                <a href="#" class="menu-item logout-btn" onclick="suaFuncaoDeLogout()" id="btn-sair">
-                    <span>🚪</span> <span>Sair</span>
-                </a>
             </div>
         </div>
 
         <div class="main-content">
             <div class="header">
-                <h1 id="pageTitle">Bem vindo Professor!</h1>
+                <h1 id="pageTitle">Bem vindo Professor</h1>
+                <button class="btn-exit">Sair</button>
             </div>
 
             <div id="home" class="page active">
                 <div class="grid">
                     <div class="card">
                         <h3>Lançar notas</h3>
-                        <p>insira notas dos alunos</p>
+                        <p>Insira notas dos alunos</p>
                         <button class="btn-primary" onclick="showPage('lancar-notas')">Lançar</button>
                     </div>
                     <div class="card">
                         <h3>Cadastrar instituições</h3>
-                        <p>adicione uma nova instituição</p>
+                        <p>Adicione uma nova instituição</p>
                         <button class="btn-primary" onclick="showPage('cadastrar-instituicao')">Cadastrar</button>
                     </div>
                     <div class="card">
                         <h3>Cadastrar turmas</h3>
-                        <p>adicione um novo turma</p>
+                        <p>Adicione um novo turma</p>
                         <button class="btn-primary" onclick="showPage('cadastrar-turma')">Cadastrar</button>
                     </div>
                     <div class="card">
+                        <h3>Definir uma fórmula</h3>
+                        <p>Adicione uma formula</p>
+                        <button class="btn-primary">Definir</button>
+                    </div>
+                    <div class="card">
                         <h3>Cadastrar disciplinas</h3>
-                        <p>adicione uma nova disciplina</p>
+                        <p>Adicione uma nova disciplina</p>
                         <button class="btn-primary" onclick="showPage('cadastrar-disciplina')">Cadastrar</button>
                     </div>
                     <div class="card">
                         <h3>Cadastrar alunos</h3>
-                        <p>adicione um novo aluno</p>
+                        <p>Adicione um novo aluno</p>
                         <button class="btn-primary" onclick="showPage('cadastrar-aluno')">Cadastrar</button>
                     </div>
-                    <div class="card">
-                        <h3>Definir Fórmula</h3>
-                        <p>crie uma fórmula para calcular notas</p>
-                        <button class="btn-primary" onclick="showPage('definir-formula')">Definir</button>
-                    </div>
-
                 </div>
             </div>
 
@@ -95,8 +98,7 @@
                                 <option value="">Selecione uma turma</option>
                             </select>
                         </div>
-                        <div class=
-                        "form-group">
+                        <div class="form-group">
                             <label>Disciplina</label>
                             <select id="notasDisciplina" required>
                                 <option value="">Selecione uma disciplina</option>
@@ -183,7 +185,7 @@
 
             <div id="cadastrar-disciplina" class="page">
                 <div class="form-container">
-                    <h2 style="margin-bottom: 25px; color: #2c3e50;">Cadastrar Disciplina</h2>
+                    <h2 style="margin-bottom: 25px; color: #00e1ff;">Cadastrar Disciplina</h2>
                     <div id="disciplinaSuccess"></div>
                     <form id="formDisciplina" onsubmit="cadastrarDisciplina(event)">
                         <div class="form-group">
@@ -253,65 +255,13 @@
                     <h2>Configurações</h2>
                     <p>Em desenvolvimento...</p>
                 </div>
-            </div>    
-                               
-            <div id="definir-formula" class="page">
-                <div class="form-container">
-                    <h2>Definir Fórmula</h2>
-                    <div id="formulaSuccess"></div>
-                    <form id="formFormula" onsubmit="cadastrarFormula(event)">
-                        <div class="form-group">
-                            <label>Nome da Fórmula</label>
-                            <input type="text" id="nomeFormula" placeholder="Ex: Média Ponderada AV1/AV2" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Tipo de Fórmula</label>
-                            <select id="tipoFormula" onchange="mostrarCamposFormula()" required>
-                                <option value="">Selecione um tipo</option>
-                                <option value="simples">Média Simples</option>
-                                <option value="ponderada">Média Ponderada</option>
-                                <option value="personalizada">Expressão Personalizada</option>
-                            </select>
-                        </div>
-                        <div id="pesosContainer" class="form-group" style="display: none;">
-                            <label>Pesos das Avaliações</label>
-                            <div class="avaliacoes-group">
-                                <div class="avaliacao-item">
-                                    <label>AV1</label>
-                                    <input type="number" id="pesoAv1" step="0.1" min="0" max="10">
-                                </div>
-                                <div class="avaliacao-item">
-                                    <label>AV2</label>
-                                    <input type="number" id="pesoAv2" step="0.1" min="0" max="10">
-                                </div>
-                                <div class="avaliacao-item">
-                                    <label>AV3</label>
-                                    <input type="number" id="pesoAv3" step="0.1" min="0" max="10">
-                                </div>
-                                <div class="avaliacao-item">
-                                    <label>AV4</label>
-                                    <input type="number" id="pesoAv4" step="0.1" min="0" max="10">
-                                </div>
-                            </div>
-                        </div>
-                        <div id="expressaoContainer" class="form-group" style="display: none;">
-                            <label>Expressão Personalizada</label>
-                            <input type="text" id="expressaoFormula" placeholder="Ex: (AV1*0.4 + AV2*0.6)">
-                            <small style="color: gray;">Use AV1, AV2, AV3, AV4 nas expressões</small>
-                        </div>
-                        <div class="form-actions">
-                            <button type="submit" class="btn-submit">Salvar Fórmula</button>
-                            <button type="button" class="btn-cancel" onclick="showPage('home')">Cancelar</button>
-                        </div> 
-                    </form>
-                </div>
             </div>
-
         </div>
     </div>
-    
 
-<script src="js/menu.js"></script>
+
+    <script src="js/menu.js"></script>
 
 </body>
+
 </html>
