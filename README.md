@@ -31,7 +31,7 @@ Este projeto foi concebido e desenvolvido pelos seguintes integrantes do **Time 
 
 ## 💻 Tecnologias Utilizadas
 
-O projeto foi construído atendendo aos requisitos de ambiente estipulados[cite: 190]:
+O projeto foi construído atendendo aos requisitos de ambiente estipulados:
 
 * **Front-End:** HTML5, CSS3, JavaScript (Vanilla).
 * **Back-End:** Node.js (LTS), TypeScript.
@@ -107,8 +107,6 @@ O sistema de upload de CSV precisa de uma pasta local. Crie manualmente na raiz 
   * Crie uma pasta chamada `tmp`.
   * Dentro dela, crie uma pasta chamada `uploads`.
 
-*(Estrutura final: `seu-projeto/tmp/uploads`)*
-
 ### 6\. Executando a Aplicação
 
 Para iniciar o servidor em modo de desenvolvimento:
@@ -129,5 +127,3 @@ Abra seu navegador e acesse:
   * **Cadastro:** [http://localhost:3333/cadastro.html]
 
 -----
-
-**Desenvolvido para a disciplina de Projeto Integrador II - 2025**
