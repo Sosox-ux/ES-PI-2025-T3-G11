@@ -182,18 +182,18 @@ export class NotasService {
 
   /**
    * Gera o conteúdo CSV para exportação
+   * (Com validação: Bloqueia se houver notas faltando ou se não houver provas)
    */
   async exportarCsv(idTurma: number, docenteId: string) {
-    // Busca os dados (Alunos e Notas)
+    // 1. Busca os dados (Alunos e Notas)
     const grade = await this.listarNotasGridPorTurma(idTurma, docenteId);
     
-    // 2. Busca a disciplina (Necessário para saber os componentes P1, P2...)
     let connection;
     let componentes: any[] = [];
     try {
         connection = await getConn();
         
-        // Busca a turma e verifica se pertence ao docente (via disciplina)
+        // Busca a disciplina da turma
         const sqlDisc = `
             SELECT t.FK_ID_DISCIPLINA 
             FROM TURMA t
@@ -202,9 +202,8 @@ export class NotasService {
         `;
         const resDisc = await connection.execute(sqlDisc, { idTurma, docenteId: Number(docenteId) });
         
-        // --- PROTEÇÃO CONTRA ERRO ---
         if (!resDisc.rows || resDisc.rows.length === 0) {
-            throw new Error("Turma não encontrada ou você não tem permissão para acessá-la.");
+            throw new Error("Turma não encontrada ou você não tem permissão.");
         }
         
         const idDisciplina = (resDisc.rows[0] as any).FK_ID_DISCIPLINA;
@@ -214,6 +213,33 @@ export class NotasService {
         
     } finally {
         if(connection) try { await connection.close(); } catch(e){}
+    }
+
+    // Verifica se existem componentes ---
+    if (componentes.length === 0) {
+        throw new Error("Não é possível exportar: Nenhuma avaliação (componente) foi definida para esta disciplina.");
+    }
+
+    //--- Verifica se todas as notas estão preenchidas ---
+    const alunosPendentes: string[] = [];
+
+    for (const aluno of grade as any[]) {
+        for (const comp of componentes) {
+            const nota = aluno.notas[comp.ID_COMPONENTE];
+            
+            // Se a nota for undefined ou null (0.0 é válido, então checamos null especificamente)
+            if (nota === undefined || nota === null) {
+                alunosPendentes.push(aluno.nomeCompleto);
+                break; // Já achou erro neste aluno, pula pro próximo
+            }
+        }
+    }
+
+    // Se houver pendências, BLOQUEIA a exportação
+    if (alunosPendentes.length > 0) {
+        const nomes = alunosPendentes.slice(0, 3).join(", ");
+        const mais = alunosPendentes.length > 3 ? ` e mais ${alunosPendentes.length - 3}` : "";
+        throw new Error(`Exportação bloqueada: Existem notas não lançadas para: ${nomes}${mais}. Preencha todas as notas antes de exportar.`);
     }
 
     // 3. Monta o Cabeçalho do CSV
@@ -228,21 +254,18 @@ export class NotasService {
 
     // 4. Monta as Linhas
     grade.forEach((aluno: any) => {
-        // Aspas para evitar quebrar o CSV se o nome tiver vírgula
         csv += `"${aluno.nomeCompleto}","${aluno.matricula}"`;
 
         let somaPonderada = 0;
 
         componentes.forEach(c => {
-            const nota = aluno.notas[c.ID_COMPONENTE];
-            const valor = nota !== undefined && nota !== null ? parseFloat(nota) : 0;
-            
-            csv += `,${valor.toFixed(2).replace('.', ',')}`; // Formata para PT-BR (virgula decimal) se quiser, ou mantenha ponto
-            
-            somaPonderada += (valor * parseFloat(c.PESO));
+            const nota = parseFloat(aluno.notas[c.ID_COMPONENTE]); 
+            csv += `,${nota.toFixed(2).replace('.', ',')}`;
+            somaPonderada += (nota * parseFloat(c.PESO));
         });
 
         // Calcula a Nota Final
+        // Evita divisão por zero se os pesos forem 0
         const notaFinal = somaPesos > 0 ? (somaPonderada / somaPesos) : 0;
         csv += `,${notaFinal.toFixed(2).replace('.', ',')}\n`;
     });
