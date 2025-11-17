@@ -11,8 +11,8 @@ O **NotaDez** é uma ferramenta web desenvolvida para atender à necessidade de 
 Diferente dos sistemas acadêmicos institucionais (que focam na instituição) ou planilhas genéricas (que carecem de integração e especificidade), o NotaDez foca na **propriedade intelectual do docente** sobre seus registros acadêmicos. O sistema permite cadastrar instituições, disciplinas e turmas, importar alunos e realizar o cálculo automático de notas finais (aritmética ou ponderada) de maneira ágil e segura.
 
 ### Principais Funcionalidades
-* **Gestão Completa:** Cadastro de Instituições, Disciplinas e Turmas[cite: 36].
-* **Alunos:** Cadastro manual ou importação em massa via arquivo CSV[cite: 37].
+* **Gestão Completa:** Cadastro de Instituições, Disciplinas e Turmas.
+* **Alunos:** Cadastro manual ou importação em massa via arquivo CSV.
 * **Notas:** Criação flexível de componentes de avaliação (P1, P2, Trabalhos) e lançamento de notas em grade.
 * **Cálculo Automático:** Suporte para médias Aritmética e Ponderada.
 * **Exportação:** Geração de relatórios de notas em CSV.
@@ -34,8 +34,8 @@ Este projeto foi concebido e desenvolvido pelos seguintes integrantes do **Time 
 O projeto foi construído atendendo aos requisitos de ambiente estipulados[cite: 190]:
 
 * **Front-End:** HTML5, CSS3, JavaScript (Vanilla).
-* **Back-End:** Node.js (LTS), TypeScript[cite: 191].
-* **Banco de Dados:** Oracle Database[cite: 194].
+* **Back-End:** Node.js (LTS), TypeScript.
+* **Banco de Dados:** Oracle Database.
 * **Bibliotecas Chave:** Express (Servidor), Multer (Uploads), CSV-Parser (Importação), Nodemailer (Envio de E-mail).
 
 ---
