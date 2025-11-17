@@ -1,33 +1,40 @@
+// Feito por Sophia :)
+
 import { Router } from 'express';
 import { InstituicoesController } from './instituicoes.controller';
-// 1. IMPORTAMOS O GUARDA (MUITO IMPORTANTE!)
-// (Você precisa ter criado este arquivo em 'src/core/middleware/auth.middleware.ts')
 import { authMiddleware } from '../../core/middleware/auth.middleware';
 
+/**
+ * Router para as rotas relacionadas às instituições.
+ * Gerencia a criação, listagem e exclusão de instituições.
+ */
 const instituicoesRoutes = Router();
 const controller = new InstituicoesController();
 
-// 2. APLICA O "GUARDA" EM TODAS AS ROTAS DESTA PASTA
-// Isso garante que ninguém que NÃO ESTEJA LOGADO pode criar,
-// listar, ou deletar instituições.
+// Aplica o middleware de autenticação a todas as rotas de instituições.
+// Isso garante que apenas usuários autenticados possam acessar essas funcionalidades.
 instituicoesRoutes.use(authMiddleware); 
 
 // --- DEFINIÇÃO DO CRUD ---
 
-// CREATE (Criar)
-// (URL final: POST /api/v1/instituicoes/)
+/**
+ * Rota para criar uma nova instituição.
+ * URL: POST /api/v1/instituicoes/
+ * Espera os dados da instituição (nome, local) no corpo da requisição.
+ */
 instituicoesRoutes.post('/', (req, res) => controller.criar(req, res));
 
-// READ (Listar)
-// (URL final: GET /api/v1/instituicoes/)
+/**
+ * Rota para listar todas as instituições associadas ao docente autenticado.
+ * URL: GET /api/v1/instituicoes/
+ */
 instituicoesRoutes.get('/', (req, res) => controller.listar(req, res));
 
-// UPDATE (Atualizar)
-// (URL final: PUT /api/v1/instituicoes/:id)
-instituicoesRoutes.put('/:id', (req, res) => controller.atualizar(req, res));
-
-// DELETE (Deletar)
-// (URL final: DELETE /api/v1/instituicoes/:id)
+/**
+ * Rota para deletar uma instituição pelo seu ID.
+ * URL: DELETE /api/v1/instituicoes/:id
+ * Requer o ID da instituição nos parâmetros da URL.
+ */
 instituicoesRoutes.delete('/:id', (req, res) => controller.deletar(req, res));
 
 export { instituicoesRoutes };

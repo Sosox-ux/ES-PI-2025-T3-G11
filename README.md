@@ -1,8 +1,6 @@
 # ES-PI-2025-T3-G11
 Repositório do Projeto Integrador II
 
-
-
 # [Nome do Projeto - NotaDez]
 
 **[Projeto Intregrador II] - [PUC-Campinas] - [2025/1]**
@@ -14,7 +12,6 @@ NotaDez é uma plataforma web desenvolvida como projeto final para a disciplina 
 Os principais objetivos do projeto são:
 * [Objetivo 1 - Centralizar a visualização de notas.]
 * [Objetivo 2 - Otimizar o processo de cálculo das notas.]
-
 ---
 
 ## 👥 Equipe (Desenvolvedores)
@@ -22,11 +19,8 @@ Os principais objetivos do projeto são:
 Este projeto foi concebido e desenvolvido pelos seguintes integrantes:
 
 * **[Carlos Eduardo Marins Fonsceca]** - [25020992]
-* **[Lucas Madruga Raizaro]** - [25005695] 
 * **[Maria Clara Chede Pucci]** - [25022698] 
-* **[Pedro Asher Cavalheri e Silva]** - [24006259]
 * **[Sophia Victória Martins Fernandes]** - [25020335]
-
 ---
 
 ## 💻 Tecnologias Utilizadas
@@ -38,4 +32,7 @@ O projeto foi construído utilizando as seguintes tecnologias e ferramentas:
 * **Banco de Dados:** [Oracle]
 * **Controle de Versão:** Git & GitHub
 * **Gerenciamento de Pacotes:** [NPM]
-* **Outras Ferramentas:** [Canva (para prototipagem), Insomnia (para testes de API)]
+* **Outras Ferramentas:** [Canva (para prototipagem)]
+
+# Como inciar o projeto
+

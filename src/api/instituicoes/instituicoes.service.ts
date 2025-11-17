@@ -1,41 +1,55 @@
+// Feito por Sophia :)
+
 import { getConn } from '../../config/db';
 
+/**
+ * Interface para os dados necessários na criação de uma instituição.
+ */
 interface CriarInstituicao {
   nome: string;
+  local?: string; 
   docenteId: string;
 }
-interface AtualizarInstituicao {
-  id: number;
-  nome: string;
-  docenteId: string;
-}
+
+/**
+ * Interface para os dados necessários na exclusão de uma instituição.
+ */
 interface DeletarInstituicao {
   id: number;
   docenteId: string;
 }
 
+/**
+ * Serviço de Instituições: contém a lógica de negócios para criar, listar e deletar instituições.
+ */
 export class InstituicoesService {
 
   /**
-   * CREATE (SQL INSERT)
+   * Cria uma nova instituição no banco de dados.
+   * Associa a instituição ao docente autenticado.
+   * @param {CriarInstituicao} data - Dados da instituição a ser criada.
+   * @returns {Promise<object>} Os dados da instituição criada.
    */
-  async criar({ nome, docenteId }: CriarInstituicao) {
+  async criar({ nome, local, docenteId }: CriarInstituicao) {
     let connection;
     try {
       connection = await getConn();
+      
       const sql = `
-        INSERT INTO INSTITUICAO (NOME, FK_ID_DOCENTE)
-        VALUES (:nome, :docenteId)
+        INSERT INTO INSTITUICAO (NOME, LOCAL, FK_ID_DOCENTE)
+        VALUES (:nome, :local, :docenteId)
       `;
       
       await connection.execute(sql, 
-        { nome, docenteId: Number(docenteId) }, // Garante que o ID é número
+        { 
+          nome, 
+          local: local || null,
+          docenteId: Number(docenteId)
+        }, 
         { autoCommit: true }
       );
       
-      // (O ideal seria retornar o ID que o Oracle gerou, 
-      //  mas isso é mais complexo. Vamos manter simples.)
-      return { nome, docenteId }; 
+      return { nome, local, docenteId }; 
     } catch (error) {
       console.error(error);
       throw error;
@@ -47,21 +61,22 @@ export class InstituicoesService {
   }
 
   /**
-   * READ (SQL SELECT)
+   * Lista todas as instituições associadas a um docente específico.
+   * @param {string} docenteId - O ID do docente.
+   * @returns {Promise<Array>} Uma lista de instituições.
    */
   async listar(docenteId: string) {
     let connection;
     try {
       connection = await getConn();
+      
       const sql = `
-        SELECT ID_INSTITUICAO, NOME 
+        SELECT ID_INSTITUICAO, NOME, LOCAL 
         FROM INSTITUICAO 
         WHERE FK_ID_DOCENTE = :docenteId
         ORDER BY NOME
       `;
       const result = await connection.execute(sql, { docenteId: Number(docenteId) });
-      
-      // Retorna a lista de linhas (objetos) que o Oracle encontrou
       return result.rows || []; 
     } catch (error) {
       console.error(error);
@@ -74,45 +89,11 @@ export class InstituicoesService {
   }
   
   /**
-   * UPDATE (SQL UPDATE)
-   */
-  async atualizar({ id, nome, docenteId }: AtualizarInstituicao) {
-    let connection;
-    try {
-      connection = await getConn();
-      const sql = `
-        UPDATE INSTITUICAO 
-        SET NOME = :nome 
-        WHERE ID_INSTITUICAO = :id AND FK_ID_DOCENTE = :docenteId
-      `;
-      // A checagem 'AND FK_ID_DOCENTE' é VITAL para segurança
-      // Impede que um usuário atualize a instituição de outro
-      
-      const result = await connection.execute(
-        sql, 
-        { nome, id, docenteId: Number(docenteId) }, 
-        { autoCommit: true }
-      );
-      
-      // Se 'rowsAffected' for 0, significa que o ID não existe
-      // ou não pertence àquele docente.
-      if (result.rowsAffected === 0) {
-        throw new Error("Instituição não encontrada ou não pertence a este docente.");
-      }
-      
-      return { id, nome };
-    } catch (error) {
-      console.error(error);
-      throw error;
-    } finally {
-      if (connection) {
-        try { await connection.close(); } catch (err) { console.error(err); }
-      }
-    }
-  }
-
-  /**
-   * DELETE (SQL DELETE)
+   * Deleta uma instituição do banco de dados.
+   * Garante que apenas o docente proprietário possa deletar a instituição e verifica se há dependências.
+   * @param {DeletarInstituicao} data - O ID da instituição a ser deletada e o ID do docente.
+   * @returns {Promise<object>} Mensagem de sucesso.
+   * @throws {Error} Se a instituição não for encontrada, não pertencer ao docente ou tiver dependências (turmas/alunos).
    */
   async deletar({ id, docenteId }: DeletarInstituicao) {
     let connection;
@@ -122,7 +103,6 @@ export class InstituicoesService {
         DELETE FROM INSTITUICAO 
         WHERE ID_INSTITUICAO = :id AND FK_ID_DOCENTE = :docenteId
       `;
-      // A checagem 'AND FK_ID_DOCENTE' é VITAL para segurança
       
       const result = await connection.execute(
         sql, 
@@ -135,7 +115,11 @@ export class InstituicoesService {
       }
       
       return { message: "Deletado com sucesso" };
-    } catch (error) {
+
+    } catch (error: any) { 
+      if (error.errorNum === 2292) {
+        throw new Error("Não é possível deletar. Esta instituição já possui turmas ou alunos cadastrados. Por favor, remova-os primeiro.");
+      }
       console.error(error);
       throw error;
     } finally {

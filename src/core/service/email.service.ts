@@ -1,8 +1,17 @@
+// Feito por Sophia :)
+
 import * as nodemailer from 'nodemailer';
 import 'dotenv/config';
 
+// Variável para armazenar a instância do transportador de e-mail, para reutilização.
 let transport: nodemailer.Transporter | null = null;
 
+/**
+ * Retorna uma instância configurada do transportador de e-mail (Nodemailer).
+ * Se o transportador já foi criado, ele é reutilizado. Caso contrário, é criado e configurado.
+ * @returns {Promise<nodemailer.Transporter>} Uma instância do transportador de e-mail.
+ * @throws {Error} Se as credenciais de e-mail não estiverem configuradas no ambiente.
+ */
 async function getTransport() {
   if (transport) {
     return transport;
@@ -16,6 +25,7 @@ async function getTransport() {
     throw new Error("Credenciais de e-mail não configuradas.");
   }
 
+  // Cria um transportador de e-mail usando o serviço Gmail e as credenciais fornecidas.
   transport = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -27,11 +37,19 @@ async function getTransport() {
   return transport;
 }
 
+/**
+ * Envia um e-mail contendo um código de recuperação de senha para o destinatário especificado.
+ * @param {string} emailDestino - O endereço de e-mail do destinatário.
+ * @param {string} codigo - O código de recuperação de senha a ser enviado.
+ * @returns {Promise<void>}
+ * @throws {Error} Se houver um erro ao enviar o e-mail.
+ */
 export async function enviarEmailReset(emailDestino: string, codigo: string) {
   try {
     const transport = await getTransport();
 
-  await transport.sendMail({
+    // Envia o e-mail com o código de recuperação.
+    await transport.sendMail({
       from: `"Projeto NotaDez" <${process.env.EMAIL_USER}>`,
       to: emailDestino,
       subject: 'Seu Código de Recuperação de Senha',
@@ -49,7 +67,6 @@ export async function enviarEmailReset(emailDestino: string, codigo: string) {
     });
 
     console.log('E-mail de reset enviado de verdade para: %s', emailDestino);
-
 
   } catch (error) {
     console.error("Erro ao enviar e-mail real:", error);
