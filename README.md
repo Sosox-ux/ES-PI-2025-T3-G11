@@ -6,13 +6,13 @@
 
 ## 🎯 Sobre o Projeto
 
-[cite_start]O **NotaDez** é uma ferramenta web desenvolvida para atender à necessidade de docentes do ensino superior de possuir uma ferramenta particular para gerenciar as notas de seus estudantes[cite: 32].
+O **NotaDez** é uma ferramenta web desenvolvida para atender à necessidade de docentes do ensino superior de possuir uma ferramenta particular para gerenciar as notas de seus estudantes.
 
-[cite_start]Diferente dos sistemas acadêmicos institucionais (que focam na instituição) ou planilhas genéricas (que carecem de integração e especificidade)[cite: 35], o NotaDez foca na **propriedade intelectual do docente** sobre seus registros acadêmicos. [cite_start]O sistema permite cadastrar instituições, disciplinas e turmas, importar alunos e realizar o cálculo automático de notas finais (aritmética ou ponderada) de maneira ágil e segura[cite: 36, 38].
+Diferente dos sistemas acadêmicos institucionais (que focam na instituição) ou planilhas genéricas (que carecem de integração e especificidade), o NotaDez foca na **propriedade intelectual do docente** sobre seus registros acadêmicos. O sistema permite cadastrar instituições, disciplinas e turmas, importar alunos e realizar o cálculo automático de notas finais (aritmética ou ponderada) de maneira ágil e segura.
 
 ### Principais Funcionalidades
-* [cite_start]**Gestão Completa:** Cadastro de Instituições, Disciplinas e Turmas[cite: 36].
-* [cite_start]**Alunos:** Cadastro manual ou importação em massa via arquivo CSV[cite: 37].
+* **Gestão Completa:** Cadastro de Instituições, Disciplinas e Turmas[cite: 36].
+* **Alunos:** Cadastro manual ou importação em massa via arquivo CSV[cite: 37].
 * **Notas:** Criação flexível de componentes de avaliação (P1, P2, Trabalhos) e lançamento de notas em grade.
 * **Cálculo Automático:** Suporte para médias Aritmética e Ponderada.
 * **Exportação:** Geração de relatórios de notas em CSV.
@@ -31,11 +31,11 @@ Este projeto foi concebido e desenvolvido pelos seguintes integrantes do **Time 
 
 ## 💻 Tecnologias Utilizadas
 
-[cite_start]O projeto foi construído atendendo aos requisitos de ambiente estipulados[cite: 190]:
+O projeto foi construído atendendo aos requisitos de ambiente estipulados[cite: 190]:
 
 * **Front-End:** HTML5, CSS3, JavaScript (Vanilla).
-* [cite_start]**Back-End:** Node.js (LTS), TypeScript[cite: 191].
-* [cite_start]**Banco de Dados:** Oracle Database[cite: 194].
+* **Back-End:** Node.js (LTS), TypeScript[cite: 191].
+* **Banco de Dados:** Oracle Database[cite: 194].
 * **Bibliotecas Chave:** Express (Servidor), Multer (Uploads), CSV-Parser (Importação), Nodemailer (Envio de E-mail).
 
 ---
@@ -71,3 +71,66 @@ Você precisa criar a estrutura do banco de dados antes de rodar o sistema.
 1.  Conecte-se ao seu banco Oracle (usando SQL Developer, DBeaver ou SQLPlus).
 2.  Execute o script SQL fornecido no arquivo `config/script.sql` (ou o script completo de criação das tabelas `DOCENTE`, `ALUNO`, `TURMA`, etc., e as Triggers de auditoria).
 
+### 4\. Configuração de Variáveis de Ambiente (.env)
+
+O sistema exige um arquivo de configuração para conectar ao banco e enviar e-mails.
+
+1.  Crie um arquivo chamado **`.env`** na **raiz** do projeto (ao lado do `package.json`).
+2.  Preencha com os seus dados:
+
+<!-- end list -->
+
+```env
+# Porta do Servidor (Evite a 3000 se o Oracle já estiver usando)
+PORT=3333
+
+# Credenciais do seu Banco Oracle
+ORACLE_USER=SEU_USUARIO
+ORACLE_PASSWORD=SUA_SENHA
+ORACLE_HOST=localhost
+ORACLE_PORT=1521
+ORACLE_SERVICE=xe
+
+# Segurança (JWT) - Digite uma senha forte qualquer
+JWT_SECRET=segredo_para_gerar_tokens_de_login
+
+# E-mail (Para recuperação de senha)
+# Use uma 'Senha de App' do Google, não sua senha pessoal
+EMAIL_USER=seu_email@gmail.com
+EMAIL_PASS=sua_senha_de_app_16_digitos
+```
+
+### 5\. Configuração de Pastas Temporárias
+
+O sistema de upload de CSV precisa de uma pasta local. Crie manualmente na raiz do projeto:
+
+  * Crie uma pasta chamada `tmp`.
+  * Dentro dela, crie uma pasta chamada `uploads`.
+
+*(Estrutura final: `seu-projeto/tmp/uploads`)*
+
+### 6\. Executando a Aplicação
+
+Para iniciar o servidor em modo de desenvolvimento:
+
+```bash
+npm run dev
+```
+
+Se tudo estiver correto, você verá no terminal:
+
+> 🚀 Servidor rodando na porta 3333
+
+### 7\. Acessando
+
+Abra seu navegador e acesse:
+
+  * **Login:** [http://localhost:3333/login.html]
+  * **Cadastro:** [http://localhost:3333/cadastro.html]
+
+-----
+
+**Desenvolvido para a disciplina de Projeto Integrador II - 2025**
+
+```
+```
