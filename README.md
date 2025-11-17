@@ -131,6 +131,3 @@ Abra seu navegador e acesse:
 -----
 
 **Desenvolvido para a disciplina de Projeto Integrador II - 2025**
-
-```
-```
