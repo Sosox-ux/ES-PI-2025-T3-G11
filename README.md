@@ -3,7 +3,7 @@ Repositório do Projeto Integrador II
 
 # [Nome do Projeto - NotaDez]
 
-**[Projeto Intregrador II] - [PUC-Campinas] - [2025/1]**
+**[Projeto Intregrador II] - [PUC-Campinas] - [2025/2]**
 
 ## 🎯 Sobre o Projeto
 
@@ -27,7 +27,7 @@ Este projeto foi concebido e desenvolvido pelos seguintes integrantes:
 
 O projeto foi construído utilizando as seguintes tecnologias e ferramentas:
 
-* **Front-End:** [HTML5, CSS3, JavaScript puro]
+* **Front-End:** [HTML, CSS, JavaScript]
 * **Back-End:** [Node.js (com Express), TypeScript]
 * **Banco de Dados:** [Oracle]
 * **Controle de Versão:** Git & GitHub
