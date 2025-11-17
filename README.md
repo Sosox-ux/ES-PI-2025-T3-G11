@@ -125,7 +125,7 @@ Se tudo estiver correto, você verá no terminal:
 
 Abra seu navegador e acesse:
 
-  * **Login:** [http://localhost:3333/login.html]
+  * **Login:** [http://localhost:3333/inicio.html]
   * **Cadastro:** [http://localhost:3333/cadastro.html]
 
 -----
