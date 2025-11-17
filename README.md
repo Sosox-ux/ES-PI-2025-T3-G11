@@ -1,14 +1,3 @@
-Com certeza\! [cite\_start]Baseado no documento de escopo `[ALTERADO] Escopo_PI_II.pdf` (especificamente a seção 5.4 que exige o `README.md` [cite: 217, 218]) e nas informações que você já me forneceu sobre a sua equipe e arquitetura, aqui está o `README.md` completo e pronto para usar.
-
-[cite\_start]Ele cobre a descrição do projeto (baseada na visão do documento [cite: 32, 36]), a equipe e o passo a passo técnico detalhado.
-
------
-
-### 📄 `README.md`
-
-Copie e cole o conteúdo abaixo no seu arquivo `README.md` na raiz do projeto.
-
-````markdown
 # NotaDez - Sistema de Gestão de Notas para Docentes
 
 **Projeto Integrador II - Engenharia de Software (PUC-Campinas) - 2025**
@@ -82,64 +71,3 @@ Você precisa criar a estrutura do banco de dados antes de rodar o sistema.
 1.  Conecte-se ao seu banco Oracle (usando SQL Developer, DBeaver ou SQLPlus).
 2.  Execute o script SQL fornecido no arquivo `config/script.sql` (ou o script completo de criação das tabelas `DOCENTE`, `ALUNO`, `TURMA`, etc., e as Triggers de auditoria).
 
-### 4\. Configuração de Variáveis de Ambiente (.env)
-
-O sistema exige um arquivo de configuração para conectar ao banco e enviar e-mails.
-
-1.  Crie um arquivo chamado **`.env`** na **raiz** do projeto (ao lado do `package.json`).
-2.  Preencha com os seus dados:
-
-<!-- end list -->
-
-```env
-# Porta do Servidor (Evite a 3000 se o Oracle já estiver usando)
-PORT=3333
-
-# Credenciais do seu Banco Oracle
-ORACLE_USER=SEU_USUARIO
-ORACLE_PASSWORD=SUA_SENHA
-ORACLE_HOST=localhost
-ORACLE_PORT=1521
-ORACLE_SERVICE=xe
-
-# Segurança (JWT) - Digite uma senha forte qualquer
-JWT_SECRET=segredo_para_gerar_tokens_de_login
-
-# E-mail (Para recuperação de senha)
-# Use uma 'Senha de App' do Google, não sua senha pessoal
-EMAIL_USER=seu_email@gmail.com
-EMAIL_PASS=sua_senha_de_app_16_digitos
-```
-
-### 5\. Configuração de Pastas Temporárias
-
-O sistema de upload de CSV precisa de uma pasta local. Crie manualmente na raiz do projeto:
-
-  * Crie uma pasta chamada `tmp`.
-  * Dentro dela, crie uma pasta chamada `uploads`.
-
-*(Estrutura final: `seu-projeto/tmp/uploads`)*
-
-### 6\. Executando a Aplicação
-
-Para iniciar o servidor em modo de desenvolvimento:
-
-```bash
-npm run dev
-```
-
-Se tudo estiver correto, você verá no terminal:
-
-> 📦 Conectado ao Banco de Dados Oracle com sucesso\!
-> 🚀 Servidor rodando na porta 3333
-
-### 7\. Acessando
-
-Abra seu navegador e acesse:
-
-  * **Login:** [http://localhost:3333/login.html](https://www.google.com/search?q=http://localhost:3333/login.html)
-  * **Cadastro:** [http://localhost:3333/cadastro.html](https://www.google.com/search?q=http://localhost:3333/cadastro.html)
-
------
-
-**Desenvolvido para a disciplina de Projeto Integrador II - 2025**
